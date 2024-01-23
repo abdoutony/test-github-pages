@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Todo App</title>
+    <style>
+      h1 {
+        font-family: "Rubik", sans-serif;
+      }
+      /* .app {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      } */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Rubik", sans-serif;
+        background-color: #e1e1e1;
+      }
+
+      .header {
+        text-align: center;
+        background-color: #161616;
+      }
+
+      .header h1 {
+        font-size: 3rem;
+        margin: 0;
+        padding: 1rem;
+        color: #e1e1e1;
+      }
+
+      .todo-list {
+        width: 50%;
+        margin: 50px auto;
+      }
+
+      .todo-list form {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .todo-list form input[type="text"] {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: 1rem;
+      }
+
+      .todo-list form button {
+        margin-left: 1rem;
+        background-color: #007bff;
+        color: #fff;
+        padding: 1rem;
+        border-radius: 5px;
+        outline: none;
+        border: none;
+        font-weight: bold;
+      }
+
+      .todo-list form button:hover {
+        cursor: pointer;
+        opacity: 0.6;
+        transition: 0.3s;
+      }
+
+      .todo-list ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .todo-list li {
+        padding: 1rem;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .todo-list li:last-child {
+        border-bottom: none;
+      }
+
+      .todo-list li i {
+        margin-left: 1rem;
+        background-color: transparent;
+        border: none;
+      }
+      .todo-list li i:first-child {
+        color: green;
+      }
+      .todo-list li i:last-child {
+        color: red;
+      }
+
+      .todo-list li i:hover {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <h1>Todo App</h1>
+      </header>
+      <main>
+        <div class="todo-list">
+          <form>
+            <input type="text" placeholder="Add a new task" id="todo-text" />
+            <button id="add-todo">Add</button>
+          </form>
+          <ul id="list">
+            <li>
+              <span>Item 1</span>
+
+              <div>
+                <i class="bx bx-check complete-btn"></i>
+                <i class="bx bxs-trash delete-btn"></i>
+              </div>
+            </li>
+            <li>
+              <span>Item 2</span>
+
+              <div>
+                <i class="bx bx-check complete-btn"></i>
+                <i class="bx bxs-trash delete-btn"></i>
+              </div>
+            </li>
+            <li>
+              <span>Item 3</span>
+              <div>
+                <i class="bx bx-check complete-btn"></i>
+                <i class="bx bxs-trash delete-btn"></i>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </main>
+    </div>
+    <script>
+      // f:/workshop-prepare/todo.html
+      var addTodoBtn = document.getElementById("add-todo");
+
+      addTodoBtn.addEventListener("click", addTodo);
+
+      // delete todo
+      var deleteBtns = document.querySelectorAll(".delete-btn");
+      deleteBtns.forEach((deleteBtn) => {
+        deleteBtn.addEventListener("click", deleteTodo);
+      });
+
+      // complete todo
+      var completeBtns = document.querySelectorAll(".complete-btn");
+      completeBtns.forEach((completeBtn) => {
+        completeBtn.addEventListener("click", completeTodo);
+      });
+
+      // to do functions
+      function addTodo(event) {
+        event.preventDefault();
+        console.log("ddd");
+        const todo = document.querySelector("#todo-text").value;
+        const ul = document.querySelector("#list");
+        const li = document.createElement("li");
+        const btnDelete = document.createElement("i");
+        const btnComplete = document.createElement("i");
+        const div = document.createElement("div");
+        const span = document.createElement("span");
+        btnDelete.setAttribute("class", "bx bxs-trash delete-btn");
+        btnComplete.setAttribute("class", "bx bx-check complete-btn");
+        span.innerHTML = todo;
+        div.appendChild(btnComplete);
+        div.appendChild(btnDelete);
+        li.appendChild(span);
+        li.appendChild(div);
+        ul.appendChild(li);
+        document.querySelector("#todo-text").value = "";
+        btnDelete.addEventListener("click", deleteTodo);
+        btnComplete.addEventListener("click", completeTodo);
+      }
+      //
+
+      //
+      function deleteTodo(event) {
+        event.preventDefault();
+        const btn = event.target;
+        const div = btn.parentElement;
+        const li = div.parentElement;
+        const ul = li.parentElement;
+        ul.removeChild(li);
+        // console.log(btn);
+      }
+
+      function completeTodo(event) {
+        event.preventDefault();
+        const btnComplete = event.target;
+        const div = btnComplete.parentElement;
+        const span = div.previousElementSibling;
+        span.style.textDecoration = "line-through";
+        div.removeChild(btnComplete);
+      }
+    </script>
+  </body>
+</html>
